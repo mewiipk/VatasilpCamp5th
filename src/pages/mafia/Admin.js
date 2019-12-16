@@ -1,15 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import firebase, { db } from "../../Firebase";
+import React, { useState, useEffect, useRef } from 'react';
+import { db } from '../../Firebase';
 
 const IDENTITY = {
-  mafia: "mafia",
-  people: "people"
-};
-
-const player = {
-  name: "",
-  vote: 0,
-  identity: ""
+  mafia: 'mafia',
+  people: 'people'
 };
 
 export default function AdminMafia() {
@@ -18,7 +12,7 @@ export default function AdminMafia() {
   const [identity, setIdentity] = useState(IDENTITY.people);
 
   const addListener = async () => {
-    const mafiaRef = db.collection("mafia").doc("admin");
+    const mafiaRef = db.collection('mafia').doc('admin');
     await mafiaRef.onSnapshot(function(doc) {
       setGameData(doc.data());
     });
@@ -29,15 +23,14 @@ export default function AdminMafia() {
   }, []);
 
   const changeVoteStatus = isOpen => {
-    const mafiaRef = db.collection("mafia").doc("admin");
+    const mafiaRef = db.collection('mafia').doc('admin');
     mafiaRef.update({ isOpen });
   };
 
   const changeShownStatus = isShown => {
-      const mafiaRef = db.collection("magia").doc("admin");
-      mafiaRef.update({ isShown});
-  }
-
+    const mafiaRef = db.collection('magia').doc('admin');
+    mafiaRef.update({ isShown });
+  };
 
   console.log(gameData);
 
@@ -63,9 +56,9 @@ export default function AdminMafia() {
               name: nameRef.current.value,
               vote: 0,
               identity,
-              status: "alive"
+              status: 'alive'
             });
-            const mafiaRef = db.collection("mafia").doc("admin");
+            const mafiaRef = db.collection('mafia').doc('admin');
             mafiaRef.update({ players: newPlayers });
           }}
         >
@@ -94,11 +87,11 @@ export default function AdminMafia() {
                   <td>{player.status}</td>
                   <td>
                     <button
-                      disabled={player.status === "die"}
+                      disabled={player.status === 'die'}
                       onClick={() => {
                         const newPlayers = [...gameData.players];
-                        newPlayers[i].status = "die";
-                        const mafiaRef = db.collection("mafia").doc("admin");
+                        newPlayers[i].status = 'die';
+                        const mafiaRef = db.collection('mafia').doc('admin');
                         mafiaRef.update({ players: newPlayers });
                       }}
                     >
@@ -111,7 +104,7 @@ export default function AdminMafia() {
         </tbody>
       </table>
       <div className="voting-status">
-        <p>{gameData.isOpen ? "เปิิดโหวต" : "ปิิดโหวต"}</p>
+        <p>{gameData.isOpen ? 'เปิิดโหวต' : 'ปิิดโหวต'}</p>
         <button onClick={() => changeVoteStatus(true)}>Open Vote</button>
         <button onClick={() => changeVoteStatus(false)}>Close Vote</button>
         <button
@@ -120,7 +113,7 @@ export default function AdminMafia() {
             newPlayers = newPlayers.map(player => {
               return { ...player, vote: 0 };
             });
-            const mafiaRef = db.collection("mafia").doc("admin");
+            const mafiaRef = db.collection('mafia').doc('admin');
             mafiaRef.update({ players: newPlayers, voters: [] });
           }}
         >
@@ -129,9 +122,15 @@ export default function AdminMafia() {
       </div>
 
       <div className="result">
-      <p>{gameData.isOpen ? <HighestVote gameData={gameData} /> : "ขอนับคะแนนโหวตแปปนึงน้า"}</p>
-        <button onClick={() => changeVoteStatus(true)}>Show Result</button>
-        <button onClick={() => changeVoteStatus(false)}>Close Result</button>
+        <p>
+          {gameData.isOpen ? (
+            <HighestVote gameData={gameData} />
+          ) : (
+            'ขอนับคะแนนโหวตแปปนึงน้า'
+          )}
+        </p>
+        <button onClick={() => changeShownStatus(true)}>Show Result</button>
+        <button onClick={() => changeShownStatus(false)}>Close Result</button>
       </div>
     </React.Fragment>
   );

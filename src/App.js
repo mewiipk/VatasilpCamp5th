@@ -1,45 +1,46 @@
-import React, { useState, useEffect } from "react";
-import "./styles/index.scss";
-import { Switch, Route } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import './styles/index.scss';
+import { Switch, Route } from 'react-router-dom';
 
-import firebase, { db } from "./Firebase";
-import MainMinority from "./pages/minority/Main";
-import AdminMinority from "./pages/minority/Admin";
-import WhoIsMafia from "./pages/mafia/Main";
-import AdminMafia from "./pages/mafia/Admin";
-import DisplayMafia from "./pages/mafia/Display";
-import FourElements from "./pages/fourelements/Main";
-import AdminElements from "./pages/fourelements/Admin";
+import firebase, { db } from './Firebase';
+import MainMinority from './pages/minority/Main';
+import AdminMinority from './pages/minority/Admin';
+import WhoIsMafia from './pages/mafia/Main';
+import AdminMafia from './pages/mafia/Admin';
+import DisplayMafia from './pages/mafia/Display';
+import FourElements from './pages/fourelements/Main';
+import AdminElements from './pages/fourelements/Admin';
+import FourElementsDisplay from './pages/fourelements/Display';
 
 function App() {
   const [user, setUser] = useState();
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
 
   console.log(user);
   console.log(user && user.name && user.name === true);
 
   const getUser = uid => {
-    const userRef = db.collection("user").doc(uid);
+    const userRef = db.collection('user').doc(uid);
     userRef
       .get()
       .then(function(doc) {
         if (doc.exists) {
           const data = doc.data();
-          console.log("Document data:", data);
+          console.log('Document data:', data);
           setUser(data);
         } else {
           // doc.data() will be undefined in this case
-          console.log("No such document!");
+          console.log('No such document!');
           setUser({ uid });
         }
       })
       .catch(function(error) {
-        console.log("Error getting document:", error);
+        console.log('Error getting document:', error);
       });
   };
 
   const updateName = () => {
-    const userRef = db.collection("user").doc(user.uid);
+    const userRef = db.collection('user').doc(user.uid);
     userRef.set({ uid: user.uid, name });
     setUser({ ...user, name });
   };
@@ -112,15 +113,18 @@ function App() {
                   <Route path="/whoismafia/admin">
                     <AdminMafia />
                   </Route>
-                  <Route path = "/whoismafia/display">
+                  <Route path="/whoismafia/display">
                     <DisplayMafia />
                   </Route>
 
                   <Route exact path="/fourelements">
-                    <FourElements />
+                    <FourElements uid={user.uid} />
                   </Route>
                   <Route path="/fourelements/admin">
                     <AdminElements />
+                  </Route>
+                  <Route path="/fourelements/display">
+                    <FourElementsDisplay />
                   </Route>
 
                   <Route path="/">
