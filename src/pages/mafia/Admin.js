@@ -33,6 +33,12 @@ export default function AdminMafia() {
     mafiaRef.update({ isOpen });
   };
 
+  const changeShownStatus = isShown => {
+      const mafiaRef = db.collection("magia").doc("admin");
+      mafiaRef.update({ isShown});
+  }
+
+
   console.log(gameData);
 
   if (!gameData) {
@@ -123,9 +129,32 @@ export default function AdminMafia() {
       </div>
 
       <div className="result">
-        <button>Show Result</button>
-        <button>Close Result</button>
+      <p>{gameData.isOpen ? <HighestVote gameData={gameData} /> : "ขอนับคะแนนโหวตแปปนึงน้า"}</p>
+        <button onClick={() => changeVoteStatus(true)}>Show Result</button>
+        <button onClick={() => changeVoteStatus(false)}>Close Result</button>
       </div>
     </React.Fragment>
+  );
+}
+
+function HighestVote(props) {
+  const { gameData } = props;
+  const newPlayers = [...gameData.players];
+  let highestPlayer = 0;
+  let highestVote = 0;
+  gameData.players.map((player, i) => {
+    if (player.vote > highestVote) {
+      highestPlayer = i;
+      highestVote = player.vote;
+    }
+  });
+
+  return (
+    <p>
+      คนที่ถูกโหวตมากที่สุดคือ
+      <span>{gameData.players[highestPlayer].name}</span>
+      ด้วยคะแนนโหวต
+      <span>{gameData.players[highestPlayer].vote}</span>
+    </p>
   );
 }
