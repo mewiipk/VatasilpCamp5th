@@ -1,0 +1,88 @@
+.who-is-mafia {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background-color: #f5f1ea;
+
+  .mafia-title {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: $dark-green;
+    width: 100%;
+    h1 {
+      font-family: "Prompt-Light";
+      color: white;
+      text-align: center;
+      font-size: 50px;
+      margin: 10px;
+    }
+    p {
+      font-family: "Prompt-Light";
+      color: $yellow;
+      text-align: center;
+    }
+  }
+
+  .voting-status {
+    margin: 5%;
+    padding: 15px;
+    box-shadow: 3px 3px 3px $light-grey;
+    background-color: white;
+    font-family: "CSPraJad";
+    font-size: 20px;
+    color: $dark-grey;
+    text-align: center;
+  }
+
+  .voting-area {
+    margin: 5%;
+    margin-top: 0%;
+    padding: 20px;
+    width: 80%;
+    box-shadow: 3px 3px 3px $light-grey;
+    background-color: white;
+    font-family: "CSPraJad";
+    color: $dark-grey;
+    text-align: center;
+  }
+
+  .candidates {
+    margin: 5px;
+    width: 50%;
+    padding: 5px 40px;
+    background-color: transparent;
+    border-radius: 5px;
+    color: $green;
+    font-family: "Prompt-Light";
+    border-color: $green;
+    border-width: 2px;
+    letter-spacing: 2px;
+    transition: 0.2s;
+    &:hover {
+      background-color: $green;
+      color: white;
+      font-family: "Prompt";
+    }
+  }
+
+  .submit {
+    margin: 20px;
+    width: 70%;
+    padding: 5px 40px;
+    background-color: $dark-orange;
+    color: white;
+    border-radius: 30em;
+    font-family: "Prompt-Light";
+    border-color: $dark-orange;
+    border-width: 2px;
+    letter-spacing: 2px;
+    transition: 0.2s;
+    &:hover {
+      background-color: transparent;
+      color: $dark-orange;
+      font-family: "Prompt";
+    }
+  }
+}
