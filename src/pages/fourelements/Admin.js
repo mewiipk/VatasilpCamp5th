@@ -1,5 +1,6 @@
 import React from 'react';
-import { codeCheckRound1 } from './utils/codeCheck';
+import { codeCheckBonusRound } from './utils/codeCheck';
+
 
 export default function AdminElements() {
   return (
@@ -15,24 +16,36 @@ function CheckCode() {
     '1': {
       uid: '1',
       name: 'Titoo',
-      element: 'earth',
+      element: 'water',
       money: 0
     },
     '2': {
       uid: '2',
       name: 'Titoo2',
-      element: 'earth',
+      element: 'water',
       money: 0
     },
     '3': {
       uid: '3',
       name: 'Titoo3',
-      element: 'earth',
+      element: 'wind',
+      money: 0
+    },
+    '4': {
+      uid: '4',
+      name: 'Titoo4',
+      element: 'water',
+      money: 0
+    },
+    '5': {
+      uid: '5',
+      name: 'Titoo5',
+      element: 'water',
       money: 0
     }
   };
   const group = Object.values(players);
-  const newPlayers = codeCheckRound1(players, group);
+  const newPlayers = codeCheckBonusRound(players, group);
 
   return (
     <table>
