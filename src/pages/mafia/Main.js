@@ -28,7 +28,7 @@ export default function WhoIsMafia(props) {
     <React.Fragment>
       <div className="who-is-mafia">
         <div className="mafia-title">
-          <h1>เกม มาเฟีย</h1>
+          <h1>เกมมาเฟีย</h1>
           <p>กติกาฟัง MC อธิบายเอานะจ๊ะ</p>
         </div>
         <p className = "voting-status">{gameData.isOpen ? "เปิดให้โหวตแล้วจ้า อย่าลืมกด Submit ก่อนปิดโหวตนะ" : "ปิิดโหวตแล้วจ้า มาลุ้นกันดีกว่าว่าเราจะจับคนร้ายได้หรือไม่"}</p>

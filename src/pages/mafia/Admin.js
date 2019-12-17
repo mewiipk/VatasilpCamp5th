@@ -28,7 +28,7 @@ export default function AdminMafia() {
   };
 
   const changeShownStatus = isShown => {
-    const mafiaRef = db.collection('magia').doc('admin');
+    const mafiaRef = db.collection('mafia').doc('admin');
     mafiaRef.update({ isShown });
   };
 
@@ -123,7 +123,7 @@ export default function AdminMafia() {
 
       <div className="result">
         <p>
-          {gameData.isOpen ? (
+          {gameData.isShown ? (
             <HighestVote gameData={gameData} />
           ) : (
             'ขอนับคะแนนโหวตแปปนึงน้า'
