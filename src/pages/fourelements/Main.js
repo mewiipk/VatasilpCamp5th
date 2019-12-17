@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../Firebase';
 import { Modal } from 'antd';
 
-export default function FourElements() {
-  const uid = '3IiZbaPUT9ZPoqKETqia';
+export default function FourElements({ uid }) {
   const [gameData, setGameData] = useState();
   const [showModal, setShowModal] = useState(false);
   const [canCode, setCanCode] = useState();
+  const [code, setCode] = useState('');
 
   const addListener = async () => {
     const mafiaRef = db.collection('fourElements').doc('admin');
@@ -64,17 +64,45 @@ export default function FourElements() {
       </Modal>
       <div>
         <button onClick={() => setShowModal(true)}>ดูเผ่า</button>
-        {canCode && (
+        {canCode ? (
+          !gameData.sentPlayers[uid] ? (
+            <div>
+              <p>ใส่ Code</p>
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  const mafiaRef = db.collection('fourElements').doc('admin');
+                  const groups = gameData.groups;
+                  const sentPlayers = gameData.sentPlayers;
+                  sentPlayers[uid] = true;
+                  if (gameData.groups[code]) {
+                    const group = [...gameData.groups[code]];
+                    group.push(gameData.players[uid]);
+                    groups[code] = group;
+                  } else {
+                    groups[code] = [gameData.players[uid]];
+                  }
+                  mafiaRef.update({ groups, sentPlayers });
+                }}
+              >
+                <input value={code} onChange={e => setCode(e.target.value)} />
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          ) : (
+            <p>คุณได้ส่งรหัสเรียบร้อยแล้ว</p>
+          )
+        ) : null}
+        {gameData.players[uid].history && (
           <div>
-            <p>ใส่ Code</p>
-            <form
-              onSubmit={e => {
-                e.preventDefault();
-              }}
-            >
-              <input />
-              <button>Send</button>
-            </form>
+            <p>ผลของรอบที่แล้ว</p>
+            <p>รอบที่แล้วคุณจับคู่กับ</p>
+            <ol>
+              {gameData.players[uid].history.group.map(player => {
+                if (player.uid === uid) return null;
+                return <li key={player.uid}>{player.name}</li>;
+              })}
+            </ol>
           </div>
         )}
       </div>

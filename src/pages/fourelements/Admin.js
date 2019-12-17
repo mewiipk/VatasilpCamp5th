@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Radio } from 'antd';
+import { Radio, Switch } from 'antd';
 import { db } from '../../Firebase';
-import { codeCheckBonusRound } from './utils/codeCheck';
+import {
+  codeCheckRound1,
+  codeCheckRound2,
+  codeCheckRound3,
+  codeCheckRound4,
+  codeCheckRound5,
+  codeCheckBonusRound
+} from './utils/codeCheck';
 
 const GAME_STATE = {
   IDLE: 0,
@@ -50,6 +57,31 @@ export default function AdminElements() {
     mafiaRef.update({ endTime: now, codeTime: now });
   };
 
+  const calculateScore = () => {
+    let newPlayers = gameData.players;
+    const groups = gameData.groups;
+    const allCode = Object.keys(groups);
+    allCode.map(code => {
+      const group = groups[code];
+      const round = gameData.gameRound;
+      if (round === 1) {
+        newPlayers = codeCheckRound1(newPlayers, group, code);
+      } else if (round === 2) {
+        newPlayers = codeCheckRound2(newPlayers, group, code);
+      } else if (round === 3) {
+        newPlayers = codeCheckRound3(newPlayers, group, code);
+      } else if (round === 4) {
+        newPlayers = codeCheckRound4(newPlayers, group, code);
+      } else if (round === 5) {
+        newPlayers = codeCheckRound5(newPlayers, group, code);
+      } else if (round === 6) {
+        newPlayers = codeCheckBonusRound(newPlayers, group, code);
+      }
+    });
+    const mafiaRef = db.collection('fourElements').doc('admin');
+    mafiaRef.update({ players: newPlayers, groups: {}, sentPlayers: {} });
+  };
+
   return (
     <React.Fragment>
       <div className="admin-elements">Admin four elements</div>
@@ -71,6 +103,32 @@ export default function AdminElements() {
         <button onClick={() => resetTimer()}>Reset Timer</button>
       </div>
       <div>
+        <div>
+          <Switch
+            checked={gameData.showBottom3}
+            onChange={checked =>
+              db
+                .collection('fourElements')
+                .doc('admin')
+                .update({ showBottom3: checked })
+            }
+          />
+          <span>Show Bottom 3</span>
+        </div>
+        <div>
+          <Switch
+            checked={gameData.showTop3}
+            onChange={checked =>
+              db
+                .collection('fourElements')
+                .doc('admin')
+                .update({ showTop3: checked })
+            }
+          />
+          <span>Show Top 3</span>
+        </div>
+      </div>
+      <div>
         <p>Round</p>
         <Radio.Group
           onChange={e => {
@@ -87,8 +145,21 @@ export default function AdminElements() {
           <Radio.Button value={6}>Bonus</Radio.Button>
         </Radio.Group>
       </div>
-      <button>Reset Score</button>
-      <CheckCode />
+      <button onClick={() => calculateScore()}>Calculate Score</button>
+      <button
+        onClick={() => {
+          const newPlayers = gameData.players;
+          const allUid = Object.keys(newPlayers);
+          allUid.map(uid => {
+            newPlayers[uid].money = 0;
+            const mafiaRef = db.collection('fourElements').doc('admin');
+            mafiaRef.update({ players: newPlayers });
+          });
+        }}
+      >
+        Reset Score
+      </button>
+      {/* <CheckCode /> */}
     </React.Fragment>
   );
 }
@@ -112,12 +183,14 @@ function IdleState() {
   const randomTeam = async () => {
     const allPlayers = {};
     await db
-      .collection('user-test')
+      .collection('user')
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           // doc.data() is never undefined for query doc snapshots
-          allPlayers[doc.id] = doc.data();
+          if (doc.id !== '2570189549742215') {
+            allPlayers[doc.id] = doc.data();
+          }
         });
       });
     const allUid = Object.keys(allPlayers);

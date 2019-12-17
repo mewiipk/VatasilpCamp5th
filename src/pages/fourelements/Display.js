@@ -65,6 +65,42 @@ export default function FourElementsDisplay() {
           <p>ใส่ Code ได้</p>
         )
       ) : null}
+      {gameData.showTop3 && <Top3 players={gameData.players} />}
+      {gameData.showBottom3 && <Bottom3 players={gameData.players} />}
     </React.Fragment>
+  );
+}
+
+function Top3({ players }) {
+  const top3players = Object.values(players).sort(function(a, b) {
+    return a.money - b.money;
+  });
+
+  return (
+    <div>
+      <p>Top 3 Players</p>
+      <ol>
+        {top3players.slice(0, 3).map(player => {
+          return <li key={player.uid}>{player.name}</li>;
+        })}
+      </ol>
+    </div>
+  );
+}
+
+function Bottom3({ players }) {
+  const bottom3players = Object.values(players).sort(function(a, b) {
+    return b.money - a.money;
+  });
+
+  return (
+    <div>
+      <p>Bottom 3 Players</p>
+      <ol>
+        {bottom3players.slice(0, 3).map(player => {
+          return <li key={player.uid}>{player.name}</li>;
+        })}
+      </ol>
+    </div>
   );
 }

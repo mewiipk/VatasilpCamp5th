@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import firebase, { db } from './Firebase';
 import MainMinority from './pages/minority/Main';
+import DisplayMinority from './pages/minority/Display';
 import AdminMinority from './pages/minority/Admin';
 import WhoIsMafia from './pages/mafia/Main';
 import AdminMafia from './pages/mafia/Admin';
@@ -101,12 +102,14 @@ function App() {
               return (
                 <Switch>
                   <Route exact path="/minority">
-                    <MainMinority />
+                    <MainMinority uid={user.uid} />
                   </Route>
                   <Route path="/minority/admin">
                     <AdminMinority />
                   </Route>
-
+                  <Route path="/minority/display">
+                    <DisplayMinority />
+                  </Route>
                   <Route exact path="/whoismafia">
                     <WhoIsMafia uid={user.uid} />
                   </Route>
@@ -126,7 +129,12 @@ function App() {
                   <Route path="/fourelements/display">
                     <FourElementsDisplay />
                   </Route>
-
+                  <Route path="/terms">
+                    <p>Terms</p>
+                  </Route>
+                  <Route path="/policy">
+                    <p>Policy</p>
+                  </Route>
                   <Route path="/">
                     <div>ยินดีต้อนรับนะคะ คุณ {user.name}</div>
                   </Route>

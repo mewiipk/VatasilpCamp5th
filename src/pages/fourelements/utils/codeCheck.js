@@ -1,7 +1,7 @@
-import { all } from "q";
+import { all } from 'q';
 
 //Player เป็น object ของ player ทุกคน / group คือ array ของคนที่กรอกโค้ดเดียวกัน
-export function codeCheckRound1(players, group) {
+export function codeCheckRound1(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
   group.map((player, i) => {
@@ -10,11 +10,19 @@ export function codeCheckRound1(players, group) {
       return;
     }
     const element = player.element;
+    newPlayers[player.uid].history = {
+      code,
+      group
+    };
     if (!elements[element]) {
       elements[element] = [];
     }
     elements[element].push(player.uid);
   });
+  if (group.length < 3) {
+    return newPlayers;
+  }
+
   const allElements = Object.keys(elements);
   if (allElements.length === 1) {
     const elementSame = allElements[0];
@@ -36,7 +44,7 @@ export function codeCheckRound1(players, group) {
   return newPlayers;
 }
 
-export function codeCheckRound2(players, group) {
+export function codeCheckRound2(players, group, code) {
   let newPlayers = players;
   let elements = {};
   group.map((player, i) => {
@@ -45,11 +53,18 @@ export function codeCheckRound2(players, group) {
       return;
     }
     const element = player.element;
+    newPlayers[player.uid].history = {
+      code,
+      group
+    };
     if (!elements[element]) {
       elements[element] = [];
     }
     elements[element].push(player.uid);
   });
+  if (group.length < 3) {
+    return newPlayers;
+  }
 
   const allElements = Object.keys(elements);
   if (allElements.length === 3) {
@@ -73,7 +88,7 @@ export function codeCheckRound2(players, group) {
   return newPlayers;
 }
 
-export function codeCheckRound3(players, group) {
+export function codeCheckRound3(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
   group.map((player, i) => {
@@ -82,11 +97,19 @@ export function codeCheckRound3(players, group) {
       return;
     }
     const element = player.element;
+    newPlayers[player.uid].history = {
+      code,
+      group
+    };
     if (!elements[element]) {
       elements[element] = [];
     }
     elements[element].push(player.uid);
   });
+  if (group.length < 4) {
+    return newPlayers;
+  }
+
   const allElements = Object.keys(elements);
   if (allElements.length === 1) {
     const elementSame = allElements[0];
@@ -108,7 +131,7 @@ export function codeCheckRound3(players, group) {
   return newPlayers;
 }
 
-export function codeCheckRound4(players, group) {
+export function codeCheckRound4(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
   group.map((player, i) => {
@@ -117,11 +140,19 @@ export function codeCheckRound4(players, group) {
       return;
     }
     const element = player.element;
+    newPlayers[player.uid].history = {
+      code,
+      group
+    };
     if (!elements[element]) {
       elements[element] = [];
     }
     elements[element].push(player.uid);
   });
+  if (group.length < 4) {
+    return newPlayers;
+  }
+
   const allElements = Object.keys(elements);
   if (allElements.length === 4) {
     for (let i = 0; i < 4; i++) {
@@ -159,7 +190,7 @@ export function codeCheckRound4(players, group) {
   return newPlayers;
 }
 
-export function codeCheckRound5(players, group) {
+export function codeCheckRound5(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
   group.map((player, i) => {
@@ -168,11 +199,18 @@ export function codeCheckRound5(players, group) {
       return;
     }
     const element = player.element;
+    newPlayers[player.uid].history = {
+      code,
+      group
+    };
     if (!elements[element]) {
       elements[element] = [];
     }
     elements[element].push(player.uid);
   });
+  if (group.length < 4) {
+    return newPlayers;
+  }
 
   const allElements = Object.keys(elements);
   if (allElements.length === 2) {
@@ -210,16 +248,23 @@ export function codeCheckRound5(players, group) {
   return newPlayers;
 }
 
-export function codeCheckBonusRound(players, group) {
+export function codeCheckBonusRound(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
   group.map((player, i) => {
     const element = player.element;
+    newPlayers[player.uid].history = {
+      code,
+      group
+    };
     if (!elements[element]) {
       elements[element] = [];
     }
     elements[element].push(player.uid);
   });
+  if (group.length < 2) {
+    return newPlayers;
+  }
 
   const allElements = Object.keys(elements);
   console.log(allElements);
@@ -228,19 +273,21 @@ export function codeCheckBonusRound(players, group) {
     elements[elementSame].map(uid => {
       newPlayers[uid].money += 1000 * group.length;
     });
-  } else if (allElements.length === 2 && (elements[allElements[0]].length === 1 ||
-    elements[allElements[1]].length === 1)) {
-      const elementSame =
-        elements[allElements[0]].length === 1 ? allElements[1] : allElements[0];
-      const elementDiff =
-        elementSame === allElements[1] ? allElements[0] : allElements[1];
-      elements[elementSame].map(uid => {
-        newPlayers[uid].money -= 1000 * group.length;
-      });
-      elements[elementDiff].map(uid => {
-        newPlayers[uid].money += 2000 * group.length;
-      });
-    
+  } else if (
+    allElements.length === 2 &&
+    (elements[allElements[0]].length === 1 ||
+      elements[allElements[1]].length === 1)
+  ) {
+    const elementSame =
+      elements[allElements[0]].length === 1 ? allElements[1] : allElements[0];
+    const elementDiff =
+      elementSame === allElements[1] ? allElements[0] : allElements[1];
+    elements[elementSame].map(uid => {
+      newPlayers[uid].money -= 1000 * group.length;
+    });
+    elements[elementDiff].map(uid => {
+      newPlayers[uid].money += 2000 * group.length;
+    });
   }
 
   return newPlayers;
