@@ -25,15 +25,15 @@ export default function DisplayMafia(props) {
     <React.Fragment>
       <div className="who-is-mafia">
         <div className="mafia-title">
-          <h1>เกม มาเฟีย</h1>
+          <h1>เกมมาเฟีย</h1>
         </div>
-        <p>{gameData.isOpen ? "เปิิดโหวต" : "ปิิดโหวต"}</p>
+        <p>{gameData.isOpen ? "เปิิดโหวตแล้ว อย่าลืมกด Submit ก่อนปิดโหวตล่ะ" : ""}</p>
 
         <p>
           {gameData.isShown ? (
             <HighestVote gameData={gameData} />
           ) : (
-            "ขอนับคะแนนโหวตแปปนึงน้า"
+            ""
           )}
         </p>
       </div>
