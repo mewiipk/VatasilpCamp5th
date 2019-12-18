@@ -42,13 +42,34 @@ export default function DisplayMinority() {
   if (gameData.showResult) {
     return (
       <div>
-        <p>ผลโหวต</p>
-        <p>
-          {gameData.question.choice1}: {gameData.vote1.length}
-        </p>
-        <p>
-          {gameData.question.choice2}: {gameData.vote2.length}
-        </p>
+        <div>
+          <p>ผลโหวต</p>
+          {Object.keys(gameData.vote1).map(num => {
+            return (
+              <div>
+                <p>กลุ่มย่อยที่ {num}</p>
+                <p>
+                  {gameData.question.choice1}:{' '}
+                  {Object.keys(gameData.vote1[num]).length}
+                </p>
+                <p>
+                  {gameData.question.choice2}:{' '}
+                  {Object.keys(gameData.vote2[num]).length}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+        <div>
+          <p>คะแนนแต่ละทีม</p>
+          {Object.keys(gameData.score).map(num => {
+            return (
+              <p>
+                ทีมที่ {num}: {gameData.score[num]} คะแนน
+              </p>
+            );
+          })}
+        </div>
       </div>
     );
   }

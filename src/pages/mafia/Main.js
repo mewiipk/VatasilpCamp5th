@@ -21,10 +21,6 @@ export default function WhoIsMafia(props) {
         if (!mafiaDoc.exists) {
           throw 'Document does not exist!';
         }
-
-        // Add one person to the city population.
-        // Note: this could be done without a transaction
-        //       by updating the population using FieldValue.increment()
         let newPlayers = [...mafiaDoc.data().players];
         newPlayers = newPlayers.map(player => {
           if (select.includes(player.name)) {
