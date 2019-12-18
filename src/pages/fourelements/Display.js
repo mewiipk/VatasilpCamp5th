@@ -50,19 +50,87 @@ export default function FourElementsDisplay() {
       {remainTime ? (
         remainTime.end.min >= 0 && remainTime.end.sec >= 0 ? (
           <div>
-            {remainTime.end.min} {remainTime.end.sec}
+            <div>
+              {remainTime.end.min} {remainTime.end.sec}
+            </div>
+            {remainTime.code.min >= 0 && remainTime.code.sec >= 0 ? (
+              <div>
+                {remainTime.code.min} {remainTime.code.sec}
+              </div>
+            ) : (
+              <p>ใส่ Code ได้</p>
+            )}
+            <div>
+              {(() => {
+                switch (gameData.gameRound) {
+                  case 1:
+                    return <p>จับกลุ่ม 3 คน</p>;
+                  case 2:
+                  //code here
+                  case 3:
+                  //code here
+                  case 4:
+                  //code here
+                  case 5:
+                  //code here
+                  case 6:
+                  //code here
+                  default:
+                    return null;
+                }
+              })()}
+            </div>
+            <div>
+              {(() => {
+                switch (gameData.gameRound) {
+                  case 1:
+                    return <p>ทำสำเร็จ + 1,000 / คน</p>;
+                  case 2:
+                  //code here
+                  case 3:
+                  //code here
+                  case 4:
+                  //code here
+                  case 5:
+                  //code here
+                  case 6:
+                  //code here
+                  default:
+                    return null;
+                }
+              })()}
+            </div>
+            <div>
+              {(() => {
+                switch (gameData.gameRound) {
+                  case 1:
+                    return (
+                      <div>
+                        <p>มี 1 คนต่างจากพวก อีก 2 คนเหมือนกัน</p>
+                        <ul>
+                          <li>คนที่ต่าง + 2,000</li>
+                          <li>อีก 2 คนที่เหมือนกัน - 1,000 / คน</li>
+                        </ul>
+                      </div>
+                    );
+                  case 2:
+                  //code here
+                  case 3:
+                  //code here
+                  case 4:
+                  //code here
+                  case 5:
+                  //code here
+                  case 6:
+                  //code here
+                  default:
+                    return null;
+                }
+              })()}
+            </div>
           </div>
         ) : (
           <p>หมดเวลา</p>
-        )
-      ) : null}
-      {remainTime && remainTime.end.min >= 0 && remainTime.end.sec >= 0 ? (
-        remainTime.code.min >= 0 && remainTime.code.sec >= 0 ? (
-          <div>
-            {remainTime.code.min} {remainTime.code.sec}
-          </div>
-        ) : (
-          <p>ใส่ Code ได้</p>
         )
       ) : null}
       {gameData.showTop3 && <Top3 players={gameData.players} />}
@@ -73,7 +141,7 @@ export default function FourElementsDisplay() {
 
 function Top3({ players }) {
   const top3players = Object.values(players).sort(function(a, b) {
-    return a.money - b.money;
+    return b.money - a.money;
   });
 
   return (
@@ -90,7 +158,7 @@ function Top3({ players }) {
 
 function Bottom3({ players }) {
   const bottom3players = Object.values(players).sort(function(a, b) {
-    return b.money - a.money;
+    return a.money - b.money;
   });
 
   return (
