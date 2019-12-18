@@ -1,12 +1,121 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 
-@import './variables';
-@import './normalize';
+@import "./variables";
+@import "./normalize";
 
-@import './pages/minority/main';
-@import './pages/minority/admin';
-@import './pages/mafia/main';
-@import './pages/mafia/admin';
-@import './pages/mafia/display';
-@import './pages/fourelements/main';
-@import './pages/fourelements/admin';
+@import "./pages/minority/main";
+@import "./pages/minority/admin";
+@import "./pages/mafia/main";
+@import "./pages/mafia/admin";
+@import "./pages/mafia/display";
+@import "./pages/fourelements/main";
+@import "./pages/fourelements/admin";
+
+.App {
+  .connect-to-facebook {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: $dark-grey;
+    h1 {
+      color: white;
+      font-family: "Prompt-Light";
+    }
+    .login-btn {
+      margin: 10px 0;
+      background-color: $fb;
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      padding: 5px 15px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition-duration: 0.2s;
+
+      p {
+        color: white;
+      }
+    }
+  }
+
+  .enter-name {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: $dark-grey;
+  }
+
+  .label-name {
+    font-family: "Prompt-Light";
+    font-size: 30px;
+    color: white;
+  }
+
+  .input {
+    margin: 15px 0;
+    font-size: 16px;
+    padding: 10px;
+    width: 250px;
+    border: 2px solid $yellow;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background: rgba(20, 20, 20, 0.4);
+    color: white;
+    outline: none;
+    font-family: "Prompt-Light";
+  }
+  .submit-button {
+    align-self: center;
+    margin-top: 30px;
+    padding: 10px 40px;
+    background-color: $yellow;
+    border-radius: 30em;
+    color: $dark-grey;
+    font-family: "Prompt-Light";
+    border-color: $yellow;
+    border-width: 2px;
+    letter-spacing: 2px;
+  }
+
+  .welcome {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: $dark-grey;
+    color: white;
+    font-family: "Prompt-Light";
+    p{
+        margin: 30px;
+    }
+
+    span {
+        font-family: 'Prompt';
+        color: $yellow;
+    }
+  }
+}
+
+.loading {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    align-items: center;
+    font-family: 'Prompt';
+    font-size: 20px;
+    color: $dark-grey;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}

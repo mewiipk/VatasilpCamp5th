@@ -188,14 +188,14 @@ function IdleState() {
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           // doc.data() is never undefined for query doc snapshots
-          if (doc.id !== '2570189549742215') {
+          //if (doc.id !== '2570189549742215') {
             allPlayers[doc.id] = doc.data();
-          }
+          //}
         });
       });
     const allUid = Object.keys(allPlayers);
     const MAX_PERSON_PER_ELEMENT = Math.ceil(allUid.length / 4);
-    const elements = ['fire', 'water', 'earth', 'wind'];
+    const elements = ['ไฟ', 'น้ำ', 'ดิน', 'ลม'];
     const checkElements = {
       fire: MAX_PERSON_PER_ELEMENT,
       water: MAX_PERSON_PER_ELEMENT,

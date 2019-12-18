@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.connect-to-facebook {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 33px);
+  width: 100%;
+  background-color: $dark-grey;
+  h1 {
+    color: white;
+    font-family: 'Prompt-Light';
+  }
+  .login-btn {
+    margin: 10px 0;
+    background-color: $fb;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition-duration: 0.2s;
+
+    p {
+      color: white;
+    }
+  }
+}

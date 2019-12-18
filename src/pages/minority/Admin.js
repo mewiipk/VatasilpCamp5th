@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { db } from '../../Firebase';
+import React, { useState, useEffect } from "react";
+import { db } from "../../Firebase";
 
 export default function AdminMinority() {
   const [gameData, setGameData] = useState();
   const [question, setQuestion] = useState({
-    question: '',
-    choice1: '',
-    choice2: ''
+    question: "",
+    choice1: "",
+    choice2: ""
   });
   const [endTime, setEndTime] = useState(0);
 
   const addListener = async () => {
-    const mafiaRef = db.collection('minority').doc('admin');
+    const mafiaRef = db.collection("minority").doc("admin");
     await mafiaRef.onSnapshot(function(doc) {
       setGameData(doc.data());
     });
@@ -21,7 +21,7 @@ export default function AdminMinority() {
     const newEndTime = new Date();
     const minutes = newEndTime.getMinutes() + parseInt(endTime);
     newEndTime.setMinutes(minutes);
-    const mafiaRef = db.collection('minority').doc('admin');
+    const mafiaRef = db.collection("minority").doc("admin");
     mafiaRef.update({
       endTime: newEndTime,
       question,
@@ -41,7 +41,7 @@ export default function AdminMinority() {
     losers.map(uid => {
       players[uid].lives -= 1;
     });
-    const mafiaRef = db.collection('minority').doc('admin');
+    const mafiaRef = db.collection("minority").doc("admin");
     mafiaRef.update({ players, showResult: true });
   };
 
@@ -101,7 +101,7 @@ export default function AdminMinority() {
           ) : (
             <button
               onClick={() => {
-                const mafiaRef = db.collection('minority').doc('admin');
+                const mafiaRef = db.collection("minority").doc("admin");
                 mafiaRef.update({ endTime: new Date(), canVote: false });
               }}
             >
@@ -119,18 +119,16 @@ function IdleState() {
   const startGame = async () => {
     const allPlayers = {};
     await db
-      .collection('user')
+      .collection("user")
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           // doc.data() is never undefined for query doc snapshots
-          if (doc.id !== '2570189549742215') {
-            allPlayers[doc.id] = doc.data();
-            allPlayers[doc.id].lives = 3;
-          }
+          allPlayers[doc.id] = doc.data();
+          allPlayers[doc.id].lives = 3;
         });
       });
-    const mafiaRef = db.collection('minority').doc('admin');
+    const mafiaRef = db.collection("minority").doc("admin");
     mafiaRef.update({ gameState: 1, players: allPlayers });
   };
   return (

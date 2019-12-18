@@ -85,17 +85,21 @@ function App() {
       });
   };
 
+
   return (
     <div className="App">
       {(() => {
         switch (user) {
           case undefined:
-            return <p>กำลังประมวลผล</p>;
+            return <div className = "loading"><p>กำลังประมวลผล... </p></div>;
           case null:
             return (
-              <button onClick={() => loginFacebook()} className="login-btn">
-                ล็อกอิน facebook ก่อนนะจ๊ะ
-              </button>
+              <div className="connect-to-facebook">
+                <h1>ล็อกอิน facebook ก่อนนะจ๊ะ</h1>
+                <button onClick={() => loginFacebook()} className="login-btn">
+                <p className="font-montserrat">Continue with Facebook</p>
+                </button>
+              </div>
             );
           default:
             if (user.name) {
@@ -136,16 +140,16 @@ function App() {
                     <p>Policy</p>
                   </Route>
                   <Route path="/">
-                    <div>ยินดีต้อนรับนะคะ คุณ {user.name}</div>
+                    <div className = "welcome"><p>ยินดีต้อนรับ <span>{user.name}</span> เข้าสู่ค่ายวาทศิลป์ครั้งที่ 5 ติดตามรอกิจกรรมในค่ายได้ในอีกไม่กี่ชั่วโมงข้างหน้าน้า</p></div>
                   </Route>
                 </Switch>
               );
             }
             return (
-              <div>
-                <p>ใส่ชื่อก่อนนะ</p>
-                <input value={name} onChange={e => setName(e.target.value)} />
-                <button onClick={() => updateName()}>Submit</button>
+              <div className = "enter-name">
+                <p className = "label-name">ใส่ชื่อก่อนนะ</p>
+                <input className = "input" value={name} onChange={e => setName(e.target.value)} />
+                <button className = "submit-button" onClick={() => updateName()}>Submit</button>
               </div>
             );
         }
