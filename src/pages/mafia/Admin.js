@@ -114,7 +114,7 @@ export default function AdminMafia() {
               return { ...player, vote: 0 };
             });
             const mafiaRef = db.collection('mafia').doc('admin');
-            mafiaRef.update({ players: newPlayers, voters: [] });
+            mafiaRef.update({ players: newPlayers, voters: {} });
           }}
         >
           Reset Vote

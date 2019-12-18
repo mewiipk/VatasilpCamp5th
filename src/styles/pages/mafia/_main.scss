@@ -12,14 +12,14 @@
     background-color: $dark-green;
     width: 100%;
     h1 {
-      font-family: "Prompt-Light";
+      font-family: 'Prompt-Light';
       color: white;
       text-align: center;
       font-size: 50px;
       margin: 10px;
     }
     p {
-      font-family: "Prompt-Light";
+      font-family: 'Prompt-Light';
       color: $yellow;
       text-align: center;
     }
@@ -30,7 +30,7 @@
     padding: 15px;
     box-shadow: 3px 3px 3px $light-grey;
     background-color: white;
-    font-family: "CSPraJad";
+    font-family: 'CSPraJad';
     font-size: 20px;
     color: $dark-grey;
     text-align: center;
@@ -43,7 +43,7 @@
     width: 80%;
     box-shadow: 3px 3px 3px $light-grey;
     background-color: white;
-    font-family: "CSPraJad";
+    font-family: 'CSPraJad';
     color: $dark-grey;
     text-align: center;
   }
@@ -55,15 +55,18 @@
     background-color: transparent;
     border-radius: 5px;
     color: $green;
-    font-family: "Prompt-Light";
+    font-family: 'Prompt-Light';
     border-color: $green;
     border-width: 2px;
     letter-spacing: 2px;
     transition: 0.2s;
-    &:hover {
+    &.selected {
       background-color: $green;
       color: white;
-      font-family: "Prompt";
+      font-family: 'Prompt';
+    }
+    &:disabled {
+      opacity: 0.4;
     }
   }
 
@@ -74,7 +77,7 @@
     background-color: $dark-orange;
     color: white;
     border-radius: 30em;
-    font-family: "Prompt-Light";
+    font-family: 'Prompt-Light';
     border-color: $dark-orange;
     border-width: 2px;
     letter-spacing: 2px;
@@ -82,7 +85,7 @@
     &:hover {
       background-color: transparent;
       color: $dark-orange;
-      font-family: "Prompt";
+      font-family: 'Prompt';
     }
   }
 }
