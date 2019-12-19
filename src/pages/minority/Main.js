@@ -18,17 +18,43 @@ export default function MainMinority({ uid }) {
 
   const onVote = vote => {
     const mafiaRef = db.collection('minority').doc('admin');
-    const votePlayers = gameData.votePlayers;
-    votePlayers[uid] = vote;
     const group = gameData.players[uid].group;
     if (vote === 1) {
-      const vote1 = gameData.vote1;
-      vote1[group][uid] = vote;
-      mafiaRef.update({ vote1, votePlayers });
+      return db.runTransaction(function(transaction) {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction.get(mafiaRef).then(function(mafiaDoc) {
+          if (!mafiaDoc.exists) {
+            throw 'Document does not exist!';
+          }
+          const votePlayers = gameData.votePlayers;
+          votePlayers[uid] = vote;
+          const vote1 = mafiaDoc.data().vote1;
+          vote1[group][uid] = vote;
+          mafiaRef.update({ vote1, votePlayers });
+          transaction.update(mafiaRef, {
+            vote1,
+            votePlayers
+          });
+        });
+      });
     } else {
-      const vote2 = gameData.vote2;
-      vote2[group][uid] = vote;
-      mafiaRef.update({ vote2, votePlayers });
+      return db.runTransaction(function(transaction) {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction.get(mafiaRef).then(function(mafiaDoc) {
+          if (!mafiaDoc.exists) {
+            throw 'Document does not exist!';
+          }
+          const votePlayers = gameData.votePlayers;
+          votePlayers[uid] = vote;
+          const vote2 = mafiaDoc.data().vote2;
+          vote2[group][uid] = vote;
+          mafiaRef.update({ vote2, votePlayers });
+          transaction.update(mafiaRef, {
+            vote2,
+            votePlayers
+          });
+        });
+      });
     }
   };
 
