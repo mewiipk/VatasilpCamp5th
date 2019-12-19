@@ -41,9 +41,10 @@
         width : 100%;
     }
 
-    p {
-        font-family: 'Prompt-Light';
-        margin : 20px
+    .description {
+        font-family: 'CSPraJad';
+        margin : 10px;
+        padding-bottom: 15px;
     }
 
 }
@@ -60,14 +61,51 @@
     letter-spacing: 2px;
 }
 
-
-
 .player-info {
     margin: 10px;
     font-family: 'CSPraJad';
     text-align: center;
+    justify-content: center;
     span {
         color: $dark-orange;
         font-family: 'CSPraJad-Bold';
     }
+}
+
+.input-code {
+    margin : 20px;
+    padding: 30px;
+    width: 100%;
+    background-color: $white;
+    .code-here {
+        font-family: 'Prompt';
+        font-size: 20px;
+    }
+}
+
+.input-here {
+    font-size: 16px;
+    padding: 10px;
+    width: 200px;
+    border: 2px solid $dark-orange;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background: rgba(114, 102, 92, 0.2);
+    color: white;
+    outline: none;
+    font-family: "Prompt-Light";
+}
+
+.submit-code {
+    align-self: center;
+    margin-left: 20px;
+    padding: 10px 10px;
+    background-color: $yellow;
+    border-radius: 10px;
+    color: $dark-grey;
+    font-family: "Prompt";
+    border-color: $yellow;
+    border-width: 2px;
+    letter-spacing: 2px;
 }

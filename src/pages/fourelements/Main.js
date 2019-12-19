@@ -68,9 +68,9 @@ export default function FourElements({ uid }) {
       <div className="content-container">
         <div className="fourelements">
           <h1>รวมเผ่า</h1>
-          <p>
+          <p className = "description">
             สามารถกดปุ่มดูเผ่า เพื่อดูเผ่าของคุณและจำนวนเงินที่มีอยู่
-            แต่ระวังาจจะมีคนแอบมองอยู่ก็ได้นะ
+            แต่ระวังอาจจะมีคนแอบมองอยู่ก็ได้นะ
           </p>
           <button className="see-info" onClick={() => setShowModal(true)}>
             ดูเผ่า
@@ -78,7 +78,8 @@ export default function FourElements({ uid }) {
           {canCode ? (
             !gameData.sentPlayers[uid] ? (
               <div className="input-code">
-                <p>ใส่ Code</p>
+                <p className = "code-here">ใส่ Code</p>
+                <p className = "description">เช็คให้ดีว่าใส่ถูกต้องแล้ว หลังกด Send แล้วจะไม่สามารถกลับมาส่งใหม่ได้อีก</p>
                 <form
                   onSubmit={e => {
                     e.preventDefault();
@@ -107,7 +108,9 @@ export default function FourElements({ uid }) {
                 </form>
               </div>
             ) : (
+              <div className = "sumitted">
               <p>คุณได้ส่งรหัสเรียบร้อยแล้ว</p>
+              </div>
             )
           ) : null}
           {gameData.players[uid].history && (
