@@ -1,16 +1,17 @@
-import { all } from 'q';
-
 //Player เป็น object ของ player ทุกคน / group คือ array ของคนที่กรอกโค้ดเดียวกัน
 export function codeCheckRound1(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
+  if (group.length < 3) {
+    return newPlayers;
+  }
   group.map((player, i) => {
     //ดักว่าเกิน 3 คน
     if (i > 2) {
       return;
     }
     const element = player.element;
-    newPlayers[player.uid].history = {
+    newPlayers[player.uid].history[0] = {
       code,
       group
     };
@@ -19,9 +20,6 @@ export function codeCheckRound1(players, group, code) {
     }
     elements[element].push(player.uid);
   });
-  if (group.length < 3) {
-    return newPlayers;
-  }
 
   const allElements = Object.keys(elements);
   if (allElements.length === 1) {
@@ -47,13 +45,16 @@ export function codeCheckRound1(players, group, code) {
 export function codeCheckRound2(players, group, code) {
   let newPlayers = players;
   let elements = {};
+  if (group.length < 3) {
+    return newPlayers;
+  }
   group.map((player, i) => {
     //ดักว่า 3 คนไม่เหมือนกัน
     if (i > 2) {
       return;
     }
     const element = player.element;
-    newPlayers[player.uid].history = {
+    newPlayers[player.uid].history[1] = {
       code,
       group
     };
@@ -62,9 +63,6 @@ export function codeCheckRound2(players, group, code) {
     }
     elements[element].push(player.uid);
   });
-  if (group.length < 3) {
-    return newPlayers;
-  }
 
   const allElements = Object.keys(elements);
   if (allElements.length === 3) {
@@ -91,13 +89,16 @@ export function codeCheckRound2(players, group, code) {
 export function codeCheckRound3(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
+  if (group.length < 4) {
+    return newPlayers;
+  }
   group.map((player, i) => {
     //ดักว่าเกิน 4 คน
     if (i > 3) {
       return;
     }
     const element = player.element;
-    newPlayers[player.uid].history = {
+    newPlayers[player.uid].history[2] = {
       code,
       group
     };
@@ -106,9 +107,6 @@ export function codeCheckRound3(players, group, code) {
     }
     elements[element].push(player.uid);
   });
-  if (group.length < 4) {
-    return newPlayers;
-  }
 
   const allElements = Object.keys(elements);
   if (allElements.length === 1) {
@@ -134,13 +132,16 @@ export function codeCheckRound3(players, group, code) {
 export function codeCheckRound4(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
+  if (group.length < 4) {
+    return newPlayers;
+  }
   group.map((player, i) => {
     //ดักว่าเกิน 4 คน
     if (i > 3) {
       return;
     }
     const element = player.element;
-    newPlayers[player.uid].history = {
+    newPlayers[player.uid].history[3] = {
       code,
       group
     };
@@ -149,9 +150,6 @@ export function codeCheckRound4(players, group, code) {
     }
     elements[element].push(player.uid);
   });
-  if (group.length < 4) {
-    return newPlayers;
-  }
 
   const allElements = Object.keys(elements);
   if (allElements.length === 4) {
@@ -193,13 +191,16 @@ export function codeCheckRound4(players, group, code) {
 export function codeCheckRound5(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
+  if (group.length < 4) {
+    return newPlayers;
+  }
   group.map((player, i) => {
     //ดักว่าเกิน 4 คน
     if (i > 3) {
       return;
     }
     const element = player.element;
-    newPlayers[player.uid].history = {
+    newPlayers[player.uid].history[4] = {
       code,
       group
     };
@@ -208,9 +209,6 @@ export function codeCheckRound5(players, group, code) {
     }
     elements[element].push(player.uid);
   });
-  if (group.length < 4) {
-    return newPlayers;
-  }
 
   const allElements = Object.keys(elements);
   if (allElements.length === 2) {
@@ -251,9 +249,12 @@ export function codeCheckRound5(players, group, code) {
 export function codeCheckBonusRound(players, group, code) {
   let newPlayers = players;
   let elements = {}; //มีดินน้ำลมไฟกี่อัน
+  if (group.length < 2) {
+    return newPlayers;
+  }
   group.map((player, i) => {
     const element = player.element;
-    newPlayers[player.uid].history = {
+    newPlayers[player.uid].history[5] = {
       code,
       group
     };
@@ -262,9 +263,6 @@ export function codeCheckBonusRound(players, group, code) {
     }
     elements[element].push(player.uid);
   });
-  if (group.length < 2) {
-    return newPlayers;
-  }
 
   const allElements = Object.keys(elements);
   console.log(allElements);

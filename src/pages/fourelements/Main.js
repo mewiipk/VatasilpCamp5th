@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { db } from "../../Firebase";
-import { Modal } from "antd";
+import React, { useState, useEffect } from 'react';
+import { db } from '../../Firebase';
+import { Modal } from 'antd';
 
 export default function FourElements({ uid }) {
   const [gameData, setGameData] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [remainTime, setRemainTime] = useState();
   const [canCode, setCanCode] = useState();
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState('');
 
   const addListener = async () => {
-    const mafiaRef = db.collection("fourElements").doc("admin");
+    const mafiaRef = db.collection('fourElements').doc('admin');
     await mafiaRef.onSnapshot(function(doc) {
       setGameData(doc.data());
     });
@@ -21,7 +22,9 @@ export default function FourElements({ uid }) {
 
   const getRemainTime = (now, time) => {
     const distance = time - now;
-    return distance > 0;
+    const min = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const sec = Math.floor((distance % (1000 * 60)) / 1000);
+    return { min, sec, distance };
   };
 
   useEffect(() => {
@@ -30,14 +33,18 @@ export default function FourElements({ uid }) {
       const codeTime = new Date(gameData.codeTime.toDate());
       const interval = setInterval(() => {
         const now = new Date().getTime();
-        setCanCode(
-          getRemainTime(now, endTime) && !getRemainTime(now, codeTime)
-        );
+        const end = getRemainTime(now, endTime);
+        const code = getRemainTime(now, codeTime);
+        setRemainTime({
+          end,
+          code
+        });
+        setCanCode(end.distance > 0 && code.distance <= 0);
       }, 1000);
 
       return () => clearInterval(interval);
     }
-  }, [gameData]);
+  }, [remainTime, gameData]);
 
   if (!gameData) {
     return null;
@@ -75,6 +82,20 @@ export default function FourElements({ uid }) {
           <button className="see-info" onClick={() => setShowModal(true)}>
             ดูเผ่า
           </button>
+          {remainTime && remainTime.end.min >= 0 && remainTime.end.sec >= 0 && (
+            <div className="timer-container">
+              <div>
+                {remainTime.end.min} {remainTime.end.sec}
+              </div>
+              {remainTime.code.min >= 0 && remainTime.code.sec >= 0 ? (
+                <div>
+                  {remainTime.code.min} {remainTime.code.sec}
+                </div>
+              ) : (
+                <p>ใส่ Code ได้</p>
+              )}
+            </div>
+          )}
           {canCode ? (
             !gameData.sentPlayers[uid] ? (
               <div className="input-code">
@@ -83,7 +104,7 @@ export default function FourElements({ uid }) {
                 <form
                   onSubmit={e => {
                     e.preventDefault();
-                    const mafiaRef = db.collection("fourElements").doc("admin");
+                    const mafiaRef = db.collection('fourElements').doc('admin');
                     const groups = gameData.groups;
                     const sentPlayers = gameData.sentPlayers;
                     sentPlayers[uid] = true;
@@ -113,18 +134,26 @@ export default function FourElements({ uid }) {
               </div>
             )
           ) : null}
-          {gameData.players[uid].history && (
-            <div>
-              <p>ผลของรอบที่แล้ว</p>
-              <p>รอบที่แล้วคุณจับคู่กับ</p>
-              <ol>
-                {gameData.players[uid].history.group.map(player => {
-                  if (player.uid === uid) return null;
-                  return <li key={player.uid}>{player.name}</li>;
-                })}
-              </ol>
-            </div>
-          )}
+          {gameData.gameRound > 1 ? (
+            gameData.players[uid].history[gameData.gameRound - 2] ? (
+              <div>
+                <p>ผลของรอบที่แล้ว</p>
+                <p>รอบที่แล้วคุณจับคู่กับ</p>
+                <ol>
+                  {gameData.players[uid].history[
+                    gameData.gameRound - 2
+                  ].group.map(player => {
+                    if (player.uid === uid) return null;
+                    return <li key={player.uid}>{player.name}</li>;
+                  })}
+                </ol>
+              </div>
+            ) : (
+              <div>
+                <p>รอบที่แล้ว คุณไม่ได้จับกลุ่ม หรืออาจจะจับไม่ครบ</p>
+              </div>
+            )
+          ) : null}
         </div>
       </div>
     </React.Fragment>

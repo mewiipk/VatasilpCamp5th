@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import firebase, { db } from '../../Firebase';
 
-export default function DisplayMafia(props) {
-  const { uid } = props;
+export default function DisplayMafia() {
   const [gameData, setGameData] = useState();
-  const [select, setSelect] = useState([]);
 
   const addListener = async () => {
     const mafiaRef = db.collection('mafia').doc('admin');
@@ -27,15 +25,13 @@ export default function DisplayMafia(props) {
         <div className="mafia-title">
           <h1>เกมมาเฟีย</h1>
         </div>
-        <p>{gameData.isOpen ? "เปิิดโหวตแล้ว อย่าลืมกด Submit ก่อนปิดโหวตล่ะ" : ""}</p>
-
         <p>
-          {gameData.isShown ? (
-            <HighestVote gameData={gameData} />
-          ) : (
-            ""
-          )}
+          {gameData.isOpen
+            ? 'เปิิดโหวตแล้ว อย่าลืมกด Submit ก่อนปิดโหวตล่ะ'
+            : ''}
         </p>
+
+        <p>{gameData.isShown ? <HighestVote gameData={gameData} /> : ''}</p>
       </div>
     </React.Fragment>
   );
@@ -43,7 +39,6 @@ export default function DisplayMafia(props) {
 
 function HighestVote(props) {
   const { gameData } = props;
-  const newPlayers = [...gameData.players];
   let highestPlayer = 0;
   let highestVote = 0;
   gameData.players.map((player, i) => {

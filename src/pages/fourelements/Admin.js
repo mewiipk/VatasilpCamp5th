@@ -48,7 +48,12 @@ export default function AdminElements() {
     const cminutes = newCodeTime.getMinutes() + parseInt(codeTime);
     newCodeTime.setMinutes(cminutes);
     const mafiaRef = db.collection('fourElements').doc('admin');
-    mafiaRef.update({ endTime: newEndTime, codeTime: newCodeTime });
+    mafiaRef.update({
+      endTime: newEndTime,
+      groups: {},
+      sentPlayers: {},
+      codeTime: newCodeTime
+    });
   };
 
   const resetTimer = () => {
@@ -79,7 +84,8 @@ export default function AdminElements() {
       }
     });
     const mafiaRef = db.collection('fourElements').doc('admin');
-    mafiaRef.update({ players: newPlayers, groups: {}, sentPlayers: {} });
+    mafiaRef.update({ players: newPlayers });
+    alert('คำนวณสำเร็จ');
   };
 
   return (
@@ -189,7 +195,7 @@ function IdleState() {
         querySnapshot.forEach(function(doc) {
           // doc.data() is never undefined for query doc snapshots
           //if (doc.id !== '2570189549742215') {
-            allPlayers[doc.id] = doc.data();
+          allPlayers[doc.id] = doc.data();
           //}
         });
       });
@@ -207,6 +213,7 @@ function IdleState() {
       const element = elements[randInt];
       allPlayers[uid].element = element;
       allPlayers[uid].money = 0;
+      allPlayers[uid].history = {};
       checkElements[element] -= 1;
       if (checkElements[element] <= 0) {
         elements.splice(randInt, 1);
