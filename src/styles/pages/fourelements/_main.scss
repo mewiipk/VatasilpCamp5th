@@ -29,7 +29,7 @@
     align-items: center;
     //justify-content: center;
     width: 100%;
-    height: 80vh;
+    height: 90vh;
     background-color: white;
     color: $dark-grey;
 
@@ -72,9 +72,29 @@
     }
 }
 
+.timer-container {
+    font-family: 'CSPraJad-Bold';
+    text-align: center;
+    margin-top : 20px;
+    padding: 20px;
+    width: 100%;
+    background-color: $white;
+
+    span {
+        font-size: 20px;
+        color: $dark-orange;
+    }
+
+    .send-code {
+        margin-top: 20px;
+        color: $dark-orange;
+    }
+}
+
+
 .input-code {
     margin : 20px;
-    padding: 30px;
+    padding: 20px;
     width: 100%;
     background-color: $white;
     .code-here {
@@ -92,7 +112,7 @@
     border-left: none;
     border-right: none;
     background: rgba(114, 102, 92, 0.2);
-    color: white;
+    color: $dark-grey;
     outline: none;
     font-family: "Prompt-Light";
 }
@@ -108,4 +128,17 @@
     border-color: $yellow;
     border-width: 2px;
     letter-spacing: 2px;
+}
+
+.submitted {
+    margin-top: 20px;
+    color: $dark-orange;
+    font-family: 'CSPraJad-Bold';
+    font-size: 18px;
+}
+
+.result {
+    font-family: 'CSPraJad';
+    margin : 10px;
+    padding-bottom: 15px;
 }

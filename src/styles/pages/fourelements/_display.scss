@@ -1,0 +1,40 @@
+.send-code {
+    margin: 20px;
+    color: $dark-orange;
+}
+
+
+.fourelements {
+    .condition {
+        margin-top : 50px;
+        span {
+            font-size: 18px;
+        }
+    }
+
+    .reward {
+        span {
+            font-size: 18px;
+        }
+    }
+
+    .special {
+        margin-bottom : 30px;
+        span {
+            font-size: 18px;
+        }
+    }
+}
+
+.three{
+    margin-top: 20px;
+    .topic {
+        font-family: 'Prompt';
+        color: $dark-orange;
+    }
+
+    ol {
+        font-family: 'CSPraJad';
+    }
+
+}

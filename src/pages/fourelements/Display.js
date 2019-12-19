@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { db } from '../../Firebase';
+import { db } from "../../Firebase";
 
 export default function FourElementsDisplay() {
   const [gameData, setGameData] = useState();
   const [remainTime, setRemainTime] = useState();
 
   const addListener = async () => {
-    const mafiaRef = db.collection('fourElements').doc('admin');
+    const mafiaRef = db.collection("fourElements").doc("admin");
     await mafiaRef.onSnapshot(function(doc) {
       setGameData(doc.data());
     });
@@ -46,95 +46,152 @@ export default function FourElementsDisplay() {
 
   return (
     <React.Fragment>
-      <div>Display</div>
-      {remainTime ? (
-        remainTime.end.min >= 0 && remainTime.end.sec >= 0 ? (
-          <div>
-            <div>
-              {remainTime.end.min} {remainTime.end.sec}
-            </div>
-            {remainTime.code.min >= 0 && remainTime.code.sec >= 0 ? (
-              <div>
-                {remainTime.code.min} {remainTime.code.sec}
+      <div className="content-container">
+        <div className="fourelements">
+          <h1>รวมเผ่า</h1>
+          {remainTime ? (
+            remainTime.end.min >= 0 && remainTime.end.sec >= 0 ? (
+              <div className="timer-container">
+                <div>
+                  <p>
+                    เหลือเวลาอีกทั้งหมด{" "}
+                    <span>
+                      {remainTime.end.min}:{remainTime.end.sec}
+                    </span>{" "}
+                    นาทีก่อนหมดเวลา
+                  </p>
+                  {remainTime.code.min >= 0 && remainTime.code.sec >= 0 ? (
+                    <div>
+                      <p>
+                        เหลือเวลาอีก{" "}
+                        <span>
+                          {remainTime.code.min}:{remainTime.code.sec}
+                        </span>{" "}
+                        นาทีจึงจะสามารถใส่ code ได้
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="send-code">
+                      ตอนนี้คุณสามารถใส่ Code ได้แล้ว กด Send
+                      เพื่อยืนยันการจับกลุ่มก่อนหมดเวลา
+                    </p>
+                  )}
+                </div>
+
+                <div className="condition">
+                  {(() => {
+                    switch (gameData.gameRound) {
+                      case 1:
+                        return <p><span>โจทย์ : </span>จับกลุ่ม 3 คน เผ่าเดียวกันหมด</p>;
+                      case 2:
+                        return <p><span>โจทย์ : </span>จับกลุ่ม 3 คน เผ่าต่างกันทั้งหมด</p>;
+                      case 3:
+                        return <p><span>โจทย์ : </span>จับกลุ่ม 4 คน เผ่าเดียวกันหมด</p>;
+                      case 4:
+                        return <p><span>โจทย์ : </span>จับกลุ่ม 4 คน เผ่าต่างกันทั้งหมด</p>;
+                      case 5:
+                        return (
+                          <p><span>โจทย์ : </span>จับกลุ่ม 4 คน มี 2 เผ่า เผ่าละ 2 คน</p>
+                        );
+                      case 6:
+                        return (
+                          <p><span>โจทย์ : </span>จับกลุ่มกี่คนก็ได้ เผ่าเดียวกันหมด</p>
+                        );
+                      default:
+                        return null;
+                    }
+                  })()}
+                </div>
+                <div className="reward">
+                  {(() => {
+                    switch (gameData.gameRound) {
+                      case 1:
+                        return <p>ทำสำเร็จ <span>+1,000 / คน</span></p>;
+                      case 2:
+                        return <p>ทำสำเร็จ <span>+1,000 / คน</span></p>;
+                      case 3:
+                        return <p>ทำสำเร็จ <span>+1,000 / คน</span></p>;
+                      case 4:
+                        return <p>ทำสำเร็จ <span>+1,000 / คน</span></p>;
+                      case 5:
+                        return <p>ทำสำเร็จ <span>+1,000 / คน</span></p>;
+                      case 6:
+                        return <p>ทำสำเร็จได้คนละ <span>+1,000 x จำนวนคนทั้งหมด / คน</span></p>;
+                      default:
+                        return null;
+                    }
+                  })()}
+                </div>
+                <div className="special">
+                  {(() => {
+                    switch (gameData.gameRound) {
+                      case 1:
+                        return (
+                          <div>
+                            <p>
+                              <span>เงื่อนไขพิเศษ : </span>มี 1 คนต่างจากพวก อีก 2คนเหมือนกัน
+                            </p>
+                              <p>คนที่ต่าง <span>+2,000</span> | อีก 2 คนที่เหมือนกัน <span>-1,000 / คน</span></p>
+                          </div>
+                        );
+                      case 2:
+                        return (
+                          <div>
+                            <p><span>เงื่อนไขพิเศษ : </span>มี 2 คนที่เหมือนกัน</p>
+                            <p>2 คนที่เผ่าเดียวกัน <span>+2,000 / คน</span> | อีก 1 คนที่ต่าง <span>-1,000</span></p>
+                          </div>
+                        );
+                      case 3:
+                        return (
+                          <div>
+                            <p>
+                            <span>เงื่อนไขพิเศษ : </span>มี 1 คนต่างจากพวก อีก 3คนเหมือนกัน
+                            </p>
+                            <p>คนที่ต่าง <span>+1,000</span> | อีก 3 คนที่เหมือนกัน <span>-1,000</span> / คน</p>
+                          </div>
+                        );
+                      case 4:
+                        return (
+                          <div>
+                            <p>
+                            <span>เงื่อนไขพิเศษ : </span>มี 2 คนที่เผ่าเดียวกัน อีก 2คนที่เหลืออยู่คนละเผ่า
+                            </p>
+                            <p>2 คนที่เผ่าเดียวกัน <span>+2,000 / คน</span> | อีก 2 คนที่ต่างกัน <span>-1,000 / คน</span></p>
+              
+                          </div>
+                        );
+                      case 5:
+                        return (
+                          <div>
+                            <p>
+                            <span>เงื่อนไขพิเศษ : </span>มี 3 คนที่เผ่าเดียวกัน อีก 1คนไม่เข้าพวก
+                            </p>
+                            <p>3 คนที่เหมือนกัน <span>+2,000 / คน</span> | 1 คนที่ต่าง <span>-2,000</span></p>
+                          </div>
+                        );
+                      case 6:
+                        return (
+                          <div>
+                            <p>
+                            <span>เงื่อนไขพิเศษ : </span>มี 1 คนที่แตกต่างจากพวกทั้งหมด
+                            </p>
+                            <p>คนที่ต่าง <span>+2,000 x จำนวนคนทั้งหมด</span> | คนที่เหลือ <span>-1,000 x จำนวนคนทั้งหมด / คน</span></p>
+                          </div>
+                        );
+                      default:
+                        return null;
+                    }
+                  })()}
+                </div>
               </div>
             ) : (
-              <p>ใส่ Code ได้</p>
-            )}
-            <div>
-              {(() => {
-                switch (gameData.gameRound) {
-                  case 1:
-                    return <p>จับกลุ่ม 3 คน</p>;
-                  case 2:
-                  //code here
-                  case 3:
-                  //code here
-                  case 4:
-                  //code here
-                  case 5:
-                  //code here
-                  case 6:
-                  //code here
-                  default:
-                    return null;
-                }
-              })()}
-            </div>
-            <div>
-              {(() => {
-                switch (gameData.gameRound) {
-                  case 1:
-                    return <p>ทำสำเร็จ + 1,000 / คน</p>;
-                  case 2:
-                  //code here
-                  case 3:
-                  //code here
-                  case 4:
-                  //code here
-                  case 5:
-                  //code here
-                  case 6:
-                  //code here
-                  default:
-                    return null;
-                }
-              })()}
-            </div>
-            <div>
-              {(() => {
-                switch (gameData.gameRound) {
-                  case 1:
-                    return (
-                      <div>
-                        <p>มี 1 คนต่างจากพวก อีก 2 คนเหมือนกัน</p>
-                        <ul>
-                          <li>คนที่ต่าง + 2,000</li>
-                          <li>อีก 2 คนที่เหมือนกัน - 1,000 / คน</li>
-                        </ul>
-                      </div>
-                    );
-                  case 2:
-                  //code here
-                  case 3:
-                  //code here
-                  case 4:
-                  //code here
-                  case 5:
-                  //code here
-                  case 6:
-                  //code here
-                  default:
-                    return null;
-                }
-              })()}
-            </div>
-          </div>
-        ) : (
-          <p>หมดเวลา</p>
-        )
-      ) : null}
-      {gameData.showTop3 && <Top3 players={gameData.players} />}
-      {gameData.showBottom3 && <Bottom3 players={gameData.players} />}
+              <p>หมดเวลา</p>
+            )
+          ) : null}
+          {gameData.showTop3 && <Top3 players={gameData.players} />}
+          {gameData.showBottom3 && <Bottom3 players={gameData.players} />}
+        </div>
+      </div>
     </React.Fragment>
   );
 }
@@ -145,8 +202,8 @@ function Top3({ players }) {
   });
 
   return (
-    <div>
-      <p>Top 3 Players</p>
+    <div className = "three">
+      <p className = "topic">Top 3 Players</p>
       <ol>
         {top3players.slice(0, 3).map(player => {
           return <li key={player.uid}>{player.name}</li>;
@@ -162,8 +219,8 @@ function Bottom3({ players }) {
   });
 
   return (
-    <div>
-      <p>Bottom 3 Players</p>
+    <div className = "three">
+      <p className = "topic">Bottom 3 Players</p>
       <ol>
         {bottom3players.slice(0, 3).map(player => {
           return <li key={player.uid}>{player.name}</li>;

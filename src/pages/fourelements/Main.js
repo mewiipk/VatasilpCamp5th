@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { db } from '../../Firebase';
-import { Modal } from 'antd';
+import React, { useState, useEffect } from "react";
+import { db } from "../../Firebase";
+import { Modal } from "antd";
 
 export default function FourElements({ uid }) {
   const [gameData, setGameData] = useState();
   const [showModal, setShowModal] = useState(false);
   const [remainTime, setRemainTime] = useState();
   const [canCode, setCanCode] = useState();
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
 
   const addListener = async () => {
-    const mafiaRef = db.collection('fourElements').doc('admin');
+    const mafiaRef = db.collection("fourElements").doc("admin");
     await mafiaRef.onSnapshot(function(doc) {
       setGameData(doc.data());
     });
@@ -75,7 +75,7 @@ export default function FourElements({ uid }) {
       <div className="content-container">
         <div className="fourelements">
           <h1>รวมเผ่า</h1>
-          <p className = "description">
+          <p className="description">
             สามารถกดปุ่มดูเผ่า เพื่อดูเผ่าของคุณและจำนวนเงินที่มีอยู่
             แต่ระวังอาจจะมีคนแอบมองอยู่ก็ได้นะ
           </p>
@@ -85,26 +85,41 @@ export default function FourElements({ uid }) {
           {remainTime && remainTime.end.min >= 0 && remainTime.end.sec >= 0 && (
             <div className="timer-container">
               <div>
-                {remainTime.end.min} {remainTime.end.sec}
+                <p>
+                  เหลือเวลาอีกทั้งหมด{" "}
+                  <span>
+                    {remainTime.end.min}:{remainTime.end.sec}
+                  </span>{" "}
+                  นาทีก่อนหมดเวลา
+                </p>
               </div>
               {remainTime.code.min >= 0 && remainTime.code.sec >= 0 ? (
                 <div>
-                  {remainTime.code.min} {remainTime.code.sec}
+                  <p>
+                    เหลือเวลาอีก{" "}
+                    <span>
+                      {remainTime.code.min}:{remainTime.code.sec}
+                    </span>{" "}
+                    นาทีจึงจะสามารถใส่ code ได้
+                  </p>
                 </div>
               ) : (
-                <p>ใส่ Code ได้</p>
+                <p className = "send-code">ตอนนี้คุณสามารถใส่ Code ได้แล้ว กด Send เพื่อยืนยันการจับกลุ่มก่อนหมดเวลา</p>
               )}
             </div>
           )}
           {canCode ? (
             !gameData.sentPlayers[uid] ? (
               <div className="input-code">
-                <p className = "code-here">ใส่ Code</p>
-                <p className = "description">เช็คให้ดีว่าใส่ถูกต้องแล้ว หลังกด Send แล้วจะไม่สามารถกลับมาส่งใหม่ได้อีก</p>
+                <p className="code-here">ใส่ Code</p>
+                <p className="description">
+                  เช็คให้ดีว่าใส่ถูกต้องแล้ว หลังกด Send
+                  แล้วจะไม่สามารถกลับมาส่งใหม่ได้อีก
+                </p>
                 <form
                   onSubmit={e => {
                     e.preventDefault();
-                    const mafiaRef = db.collection('fourElements').doc('admin');
+                    const mafiaRef = db.collection("fourElements").doc("admin");
                     const groups = gameData.groups;
                     const sentPlayers = gameData.sentPlayers;
                     sentPlayers[uid] = true;
@@ -129,14 +144,14 @@ export default function FourElements({ uid }) {
                 </form>
               </div>
             ) : (
-              <div className = "sumitted">
-              <p>คุณได้ส่งรหัสเรียบร้อยแล้ว</p>
+              <div className="submitted">
+                <p>คุณได้ส่งรหัสเรียบร้อยแล้ว</p>
               </div>
             )
           ) : null}
           {gameData.gameRound > 1 ? (
             gameData.players[uid].history[gameData.gameRound - 2] ? (
-              <div>
+              <div className = "result">
                 <p>ผลของรอบที่แล้ว</p>
                 <p>รอบที่แล้วคุณจับคู่กับ</p>
                 <ol>
@@ -149,7 +164,7 @@ export default function FourElements({ uid }) {
                 </ol>
               </div>
             ) : (
-              <div>
+              <div className = "result">
                 <p>รอบที่แล้ว คุณไม่ได้จับกลุ่ม หรืออาจจะจับไม่ครบ</p>
               </div>
             )
