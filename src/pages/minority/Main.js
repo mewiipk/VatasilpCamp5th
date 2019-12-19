@@ -4,6 +4,7 @@ import { Radio } from 'antd';
 
 export default function MainMinority({ uid }) {
   const [gameData, setGameData] = useState();
+  const [vote, setVote] = useState();
 
   const addListener = async () => {
     const mafiaRef = db.collection('minority').doc('admin');
@@ -19,6 +20,7 @@ export default function MainMinority({ uid }) {
   const onVote = vote => {
     const mafiaRef = db.collection('minority').doc('admin');
     const group = gameData.players[uid].group;
+    setVote(null);
     if (vote === 1) {
       return db.runTransaction(function(transaction) {
         // This code may get re-run multiple times if there are conflicts.
@@ -77,11 +79,12 @@ export default function MainMinority({ uid }) {
       {gameData.canVote ? (
         !gameData.votePlayers[uid] ? (
           <div>
-            <button onClick={() => onVote(1)}>
-              {gameData.question.choice1}
-            </button>
-            <button onClick={() => onVote(2)}>
-              {gameData.question.choice2}
+            <Radio.Group onChange={e => setVote(e.target.value)} value={vote}>
+              <Radio.Button value={1}>{gameData.question.choice1}</Radio.Button>
+              <Radio.Button value={2}>{gameData.question.choice2}</Radio.Button>
+            </Radio.Group>
+            <button onClick={() => onVote(vote)} disabled={!vote}>
+              โหวต
             </button>
           </div>
         ) : (
